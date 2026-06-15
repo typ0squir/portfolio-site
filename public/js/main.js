@@ -65,8 +65,8 @@ gsap.timeline({
         toggleActions: 'play none none reverse',
     }
 })
-    .from('._m .se03 .wrap > dl dt', { opacity: 0, x: 40, duration: .8 })
-    .from('._m .se03 .wrap > dl dd', { opacity: 0, x: 40, duration: .8 }, '-=80%')
+    .from('._m .se03 .wrap .secTitle', { opacity: 0, x: 40, duration: .8 })
+    .from('._m .se03 .wrap .secDesc', { opacity: 0, x: 40, duration: .8 }, '-=80%')
     .from('._m .se03 .wrap > p', { opacity: 0, x: -40, duration: .8 }, '-=50%')
 
 
@@ -94,8 +94,8 @@ gsap.timeline({
         toggleActions: 'play none none reverse',
     }
 })
-.from('._m .se06 .wrap > dl dt', { opacity: 0, x: 40, duration: .8 })
-.from('._m .se06 .wrap > dl dd', { opacity: 0, x: 40, duration: .8 }, '-=80%')
+.from('._m .se06 .wrap .secTitle', { opacity: 0, x: 40, duration: .8 })
+.from('._m .se06 .wrap .secDesc', { opacity: 0, x: 40, duration: .8 }, '-=80%')
 
 ScrollTrigger.matchMedia({
     "(min-width: 821px)" : function () {
