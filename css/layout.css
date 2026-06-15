@@ -1,0 +1,170 @@
+
+.wrap{ width: 84%; margin: 0 auto; }
+.wrap[max="1600"]{ max-width: 1600px; }
+.wrap[max="1540"]{ max-width: 1540px; }
+
+@media screen and (max-width: 820px){
+    .wrap{ width: 86%; }
+}
+
+
+.snslist{ display: flex; align-items: center; }
+.snslist li{ margin-right: 20px; }
+.snslist li:last-of-type{ margin-right: 0; }
+.snslist li > a{ display: block; }
+.snslist li > a i{ font-size: 35px; background-clip: text; background-image: url(/asset/img/main/se02_titlecolor.jpg); background-position: 70% 10%; color: #fff; transition-duration: 0.2s; }
+
+.snslist li > a i.custom-github,
+.snslist li > a i.custom-tistory {
+    background-clip: border-box;
+    -webkit-background-clip: border-box;
+    background-image: none;
+    background-color: #fff;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    vertical-align: middle;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    transition: background-color 0.2s, background-image 0.2s;
+}
+
+.snslist li > a i.custom-github {
+    -webkit-mask-image: url(/asset/img/common/github.svg);
+    mask-image: url(/asset/img/common/github.svg);
+}
+
+.snslist li > a i.custom-tistory {
+    -webkit-mask-image: url(/asset/img/common/tistory.svg);
+    mask-image: url(/asset/img/common/tistory.svg);
+}
+
+@media screen and (min-width: 821px){
+    .snslist li > a:hover i{ 
+        color: #7bf1d2 !important; 
+        background-image: none !important; 
+    }
+    .snslist li > a:hover i.custom-github,
+    .snslist li > a:hover i.custom-tistory {
+        background-color: #7bf1d2 !important;
+        background-image: none !important;
+    }
+}
+
+@media screen and (max-width: 1280px){
+    .snslist li{ margin-right: 10px; }
+}
+
+@media screen and (max-width: 820px){
+    .snslist li{ margin-right: 15px; width: 25px; }
+    .snslist li > a i{ font-size: 27px; }
+    .snslist li > a i.custom-github,
+    .snslist li > a i.custom-tistory {
+        width: 27px;
+        height: 27px;
+    }
+}
+
+
+/* header */
+.header{ color: #fff; z-index: 995; position: fixed; top: 0; left: 0; width: 100%; padding-top: 40px; transition-duration: 0.4s; }
+.header .wrap{ display: flex; justify-content: space-between; }
+.header .wrap .logo{ flex-shrink: 0; }
+.header .wrap .logo > a{ padding: 20px 0; display: block; transition-duration: 0.4s; }
+.header .wrap nav{ width: 100%; display: flex; justify-content: flex-end; }
+.header .wrap nav .menu{ display: flex; justify-content: flex-end; }
+.header .wrap nav .menu li{ position: relative; }
+.header .wrap nav .menu li.on > a{ color: #fff; }
+.header .wrap nav .menu li > a{ font-size: 20px; font-family: 'Pretendard'; font-weight: 700; color: #767676; transition-duration: 0.2s; padding: 0 25px; height: 100%; display: flex; align-items: center; }
+.header .wrap nav .menu li:last-of-type > a{ padding-right: 0; }
+
+
+
+.header .wrap .hamWrap{ width: 24px; display: flex; align-items: center; justify-content: center; cursor: pointer; display: none; }
+.header .wrap .hamWrap .hambtn{ width: 30px; height: 9px;  margin-top: -5px; position: relative; }
+.header .wrap .hamWrap .hambtn span{ width: 100%; height: 2px; background-color: #fff; position: absolute; left: 0; transition-duration: 0.4s; transform-origin: 50% 50%; }
+.header .wrap .hamWrap .hambtn span:nth-of-type(1){ top: 0; }
+.header .wrap .hamWrap .hambtn span:nth-of-type(2){ top: 100%; }
+
+.header.scroll{ background-color: rgba(0,0,0,0.8); padding-top: 0; }
+.header.ham .wrap .hamWrap .hambtn span:nth-of-type(1){ top: 50%; left: 0; transform: rotate(135deg); }
+.header.ham .wrap .hamWrap .hambtn span:nth-of-type(2){ top: 50%; left: 0; transform: rotate(-135deg); }
+
+
+@media screen and (min-width: 821px){
+    .header .wrap nav .menu li > a:hover{ color: #fff; }
+}
+
+@media screen and (max-width: 1280px){
+    .header{ padding-top: 10px; }
+    .header .wrap .logo > a{ padding: 15px 0; }
+    .header .wrap .logo > a img{ width: 165px; }
+    .header .wrap nav .menu li > a{ font-size: 16px; padding: 0 20px; }
+    
+}
+
+@media screen and (max-width: 820px){
+    .header .wrap .logo > a{ padding: 10px 0; }
+    .header .wrap .logo > a img{ width: 120px; }
+    .header .wrap nav{ display: none; }
+    .header .wrap .hamWrap{ display: flex; }
+}
+
+
+.header.ham ~ .total{ transform: translateY(0); opacity: 1; }
+
+/* mobile_menu */
+.total{ width: 100%; transform: translateY(-100%); opacity: 0; height: 100vh; background: radial-gradient(circle at 10% 20%, rgba(163, 116, 255, 0.18) 0%, transparent 45%), radial-gradient(circle at 90% 80%, rgba(123, 241, 210, 0.15) 0%, transparent 45%), #0a0a0c; display: flex; flex-direction: column; align-items: center; justify-content: center; display: none; position: fixed; top: 0; left: 0; z-index: 994; padding: 80px 0; box-sizing: border-box; transition-duration: 0.4s; }
+.total .m_menu{ width: 100%; text-align: center; }
+.total .m_menu > li{ width: 100%; padding: 25px 0; }
+.total .m_menu > li > a{ display: inline-block; padding: 5px 0; font-size: 20px; font-family: 'Pretendard'; font-weight: 700; color: #fff; }
+.total .m_menu > li.on > a{ color: #7bf1d2; }
+
+
+@media screen and (max-width: 820px){
+    .total{ display: flex; }
+}
+
+
+/* footer */
+.footer{ width: 100%; background-color: #000; color: #fff; }
+.footer .wrap{ border-top: 1px solid #333333; box-sizing: border-box; padding: 45px 0; display: flex; align-items: center; justify-content: space-between; }
+.footer .wrap .logo{ flex-shrink: 0; padding-right: 0; border-right: none; box-sizing: border-box; }
+@media screen and (max-width: 1280px){
+    .footer .wrap .logo{ padding-right: 40px; }
+    .footer .wrap .logo > a img{ width: 170px; }
+}
+
+@media screen and (max-width: 820px){
+    .footer .wrap{ padding: 25px 0; display: flex; align-items: center; justify-content: space-between; }
+    .footer .wrap .logo{ padding-right: 0; border-right: 0; }
+    .footer .wrap .right{ margin-left: auto; display: flex; align-items: center; }
+}
+
+
+
+
+
+
+.sideFix{ position: fixed; top: 50%; transform: translateY(-50%); right: 25px; z-index: 10; transition-duration: 0.2s; opacity: 0; pointer-events: none; }
+.sideFix.show{ opacity: 1; pointer-events: unset; }
+
+.sideFix .totop{ width: 50px; height: 50px; border-radius: 50%; margin: 0 auto; background-color: #111111; color: #fff; font-size: 14px; font-family: 'Pretendard'; font-weight: 700; display: flex; justify-content: center; align-items: center; margin-top: 15px; cursor: pointer; }
+
+@media screen and (max-width: 820px){
+    .sideFix{ top: auto; transform: translateY(0); bottom: 150px; right: 5%; }
+}
+
+
+
+
+
+
+
+
+
+
