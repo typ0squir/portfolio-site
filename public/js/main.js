@@ -190,7 +190,7 @@ sections.forEach(id => {
 });
 
 
-// PROJECTS 섹션 Learn More 모달 오픈 연동
+// PROJECTS 섹션 View All 모달 오픈 연동
 $('._m .se04 .wrap .bx .lbx .morebtn').on('click', function(e) {
     e.preventDefault();
     let $parent = $(this).closest('.bx');
@@ -201,22 +201,89 @@ $('._m .se04 .wrap .bx .lbx .morebtn').on('click', function(e) {
         return $(this).text();
     }).get().join(' / ');
     
-    // 복사할 데이터들 추출
-    let overviewHtml = $parent.find('.modalData .overviewContent').html();
-    let sessionsHtml = $parent.find('.rbx .sessions').html();
-    let troubleHtml = $parent.find('.modalData .troubleContent').html();
+    let period = $parent.find('.modalData .modalPeriod').text();
+    let repoLink = $parent.find('.modalData .modalRepoLink').text().trim();
+    let summaryHtml = $parent.find('.modalData .modalSummary').html();
+    let backgroundHtml = $parent.find('.modalData .modalBackground').html();
+    let meaningHtml = $parent.find('.modalData .modalMeaning').html();
+    let techStacksText = $parent.find('.modalData .modalTechStacks').text();
+    let setupHtml = $parent.find('.modalData .modalSetup').html();
     
     // Populate modal content
     $('#projectModal .modalCategory').text(tags);
     $('#projectModal .modalTitle').text(title);
+    $('#projectModal .modalPeriod').text(period);
+    $('#projectModal .modalRepoLink').attr('data-repo', repoLink || '#');
+    
+    // Left column: 📌 Summary & 🔨 Technology Stack(s)
+    let leftHtml = '';
+    leftHtml += `
+        <div class="modalSection">
+            <h3>📌 Summary</h3>
+            <div class="summaryBox">
+                ${summaryHtml}
+            </div>
+        </div>
+    `;
+    
+    // Convert techStacksText to tags
+    let techTagsHtml = '';
+    if (techStacksText) {
+        let techList = techStacksText.split(',').map(item => item.trim());
+        techTagsHtml = techList.map(tech => `<span>${tech}</span>`).join('');
+    }
+    
+    leftHtml += `
+        <div class="modalSection">
+            <h3>🔨 Technology Stack(s)</h3>
+            <div class="techStackBox">
+                ${techTagsHtml}
+            </div>
+        </div>
+    `;
+    
+    // Right column: 🤔 Background & 🔍 Meaning & ⚙️ Setup & Usage
+    let rightHtml = '';
+    rightHtml += `
+        <div class="modalSection">
+            <h3>🤔 Background</h3>
+            <div class="backgroundBox">
+                ${backgroundHtml}
+            </div>
+        </div>
+    `;
+    
+    rightHtml += `
+        <div class="modalSection">
+            <h3>🔍 Meaning</h3>
+            <div class="meaningBox">
+                ${meaningHtml}
+            </div>
+        </div>
+    `;
+    
+    rightHtml += `
+        <div class="modalSection">
+            <h3>⚙️ Setup & Usage</h3>
+            <div class="setupBox">
+                ${setupHtml}
+            </div>
+        </div>
+    `;
     
     // Inject into corresponding columns (Left & Right)
-    $('#modal-overview-section').html(overviewHtml);
-    $('#modal-tasks-section').html('<div class="modalTasksSection"><h3>상세 구현 과제</h3><ul class="sessions">' + sessionsHtml + '</ul></div>');
-    $('#modal-trouble-section').html(troubleHtml);
+    $('#projectModal .modalLeft').html(leftHtml);
+    $('#projectModal .modalRight').html(rightHtml);
     
     // Show modal (flex display 유지하며 페이드인)
     $('#projectModal').css('display', 'flex').hide().fadeIn(300);
+    $('body').addClass('modal-open');
+    
+    // ScrollSmoother가 활성화되어 있는 경우, 스크롤 동작을 일시정지 (마우스가 모달 밖에 있어도 배경 스크롤 차단)
+    let smoother = ScrollSmoother.get();
+    if (smoother) {
+        smoother.paused(true);
+    }
 });
 
 
@@ -227,6 +294,28 @@ $(document).on('click', '#projectModal, #projectModal .modalClose, #projectModal
         return;
     }
     $('#projectModal').fadeOut(200);
+    $('body').removeClass('modal-open');
+    
+    // ScrollSmoother가 활성화되어 있는 경우, 스크롤 동작 복구
+    let smoother = ScrollSmoother.get();
+    if (smoother) {
+        smoother.paused(false);
+    }
+});
+
+// 모달 내 GitHub 저장소 클릭 시 알림 팝업 연동
+$(document).on('click', '#projectModal .modalRepoLink', function(e) {
+    e.preventDefault();
+    let repoUrl = $(this).attr('data-repo');
+    let projectTitle = $('#projectModal .modalTitle').text().trim();
+    
+    if (!repoUrl || repoUrl === '#' || repoUrl === '') {
+        showCustomConfirm(`해당 프로젝트(${projectTitle})의 GitHub 저장소는\n현재 준비 중입니다.`, "확인", null, false);
+    } else {
+        showCustomConfirm(`개발자 명민주의 ${projectTitle} GitHub 저장소로 이동하여\n다양한 프로젝트 소스 코드를 확인하시겠습니까?`, "방문하기", function() {
+            window.open(repoUrl, '_blank');
+        });
+    }
 });
 
 // STACKS 기술 스택 마우스 포인터 추적형 툴팁 구현

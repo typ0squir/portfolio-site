@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Glowing filters -->
+    <filter id="green-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="red-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="cyan-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    /* Styling */
+    .pipe-wall { stroke: rgba(255, 255, 255, 0.1); stroke-width: 2.5; fill: none; }
+    .valve-gate { fill: #bd93f9; stroke: rgba(255, 255, 255, 0.2); stroke-width: 1.5; filter: url(#purple-glow); }
+    
+    /* Animations */
+    .valve-top { transform-origin: 200px 170px; animation: valveTopRetract 6s infinite ease-in-out; }
+    .valve-bottom { transform-origin: 200px 230px; animation: valveBottomRetract 6s infinite ease-in-out; }
+    
+    .packet-1 { animation: packetFlow1 6s infinite ease-in-out; }
+    .packet-2 { animation: packetFlow2 6s infinite ease-in-out; }
+    .packet-3 { animation: packetFlow3 6s infinite ease-in-out; }
+    .opt-indicator { transform-origin: 200px 200px; animation: optFlash 6s infinite ease-in-out; }
+
+    /* Valves retract to open the bottleneck */
+    @keyframes valveTopRetract {
+      0%, 40%, 95%, 100% { transform: translateY(0px); }    /* Closed (Bottleneck) */
+      45%, 90% { transform: translateY(-22px); }            /* Open (Optimized) */
+    }
+
+    @keyframes valveBottomRetract {
+      0%, 40%, 95%, 100% { transform: translateY(0px); }    /* Closed (Bottleneck) */
+      45%, 90% { transform: translateY(22px); }             /* Open (Optimized) */
+    }
+
+    /* Packet 1 Flow */
+    @keyframes packetFlow1 {
+      0% { transform: translate(80px, 200px); fill: #8be9fd; filter: url(#cyan-glow); opacity: 1; }
+      12% { transform: translate(185px, 200px); fill: #8be9fd; }
+      /* Vibrating at bottleneck */
+      16%, 38% { transform: translate(187px, 199px); fill: #ff5555; filter: url(#red-glow); }
+      40% { transform: translate(185px, 200px); fill: #ff5555; }
+      /* Snap and release */
+      46% { transform: translate(195px, 200px); fill: #50fa7b; filter: url(#green-glow); }
+      58% { transform: translate(320px, 200px); fill: #50fa7b; opacity: 1; }
+      64%, 100% { transform: translate(320px, 200px); opacity: 0; }
+    }
+
+    /* Packet 2 Flow */
+    @keyframes packetFlow2 {
+      0%, 5% { transform: translate(80px, 200px); fill: #8be9fd; filter: url(#cyan-glow); opacity: 0; }
+      10% { opacity: 1; }
+      18% { transform: translate(171px, 200px); fill: #8be9fd; }
+      /* Vibrating at bottleneck */
+      22%, 38% { transform: translate(173px, 201px); fill: #ff5555; filter: url(#red-glow); }
+      40% { transform: translate(171px, 200px); fill: #ff5555; }
+      /* Snap and release */
+      48% { transform: translate(195px, 200px); fill: #50fa7b; filter: url(#green-glow); }
+      60% { transform: translate(320px, 200px); fill: #50fa7b; opacity: 1; }
+      66%, 100% { transform: translate(320px, 200px); opacity: 0; }
+    }
+
+    /* Packet 3 Flow */
+    @keyframes packetFlow3 {
+      0%, 10% { transform: translate(80px, 200px); fill: #8be9fd; filter: url(#cyan-glow); opacity: 0; }
+      15% { opacity: 1; }
+      24% { transform: translate(157px, 200px); fill: #8be9fd; }
+      /* Vibrating at bottleneck */
+      28%, 38% { transform: translate(155px, 199px); fill: #ff5555; filter: url(#red-glow); }
+      40% { transform: translate(157px, 200px); fill: #ff5555; }
+      /* Snap and release */
+      50% { transform: translate(195px, 200px); fill: #50fa7b; filter: url(#green-glow); }
+      62% { transform: translate(320px, 200px); fill: #50fa7b; opacity: 1; }
+      68%, 100% { transform: translate(320px, 200px); opacity: 0; }
+    }
+
+    /* Green flash on optimization */
+    @keyframes optFlash {
+      0%, 41%, 56%, 100% { opacity: 0; transform: scale(0.6); }
+      45%, 48% { opacity: 1; transform: scale(1.1); }
+    }
+  </style>
+
+  <!-- Pipeline Channel Walls (Full width 60px: Y=170 to 230) -->
+  <path class="pipe-wall" d="M 50,170 L 350,170" />
+  <path class="pipe-wall" d="M 50,230 L 350,230" />
+
+  <!-- Flow Entrance/Exit Nodes -->
+  <line x1="50" y1="170" x2="50" y2="230" stroke="rgba(255,255,255,0.1)" stroke-width="2.5" />
+  <line x1="350" y1="170" x2="350" y2="230" stroke="rgba(255,255,255,0.1)" stroke-width="2.5" />
+
+  <!-- Bottleneck Gates (Top/Bottom Valves closing in to leave only 12px gap) -->
+  <!-- Top Valve -->
+  <g class="valve-top">
+    <rect class="valve-gate" x="194" y="170" width="12" height="23" rx="2" />
+  </g>
+  <!-- Bottom Valve -->
+  <g class="valve-bottom">
+    <rect class="valve-gate" x="194" y="207" width="12" height="23" rx="2" />
+  </g>
+
+  <!-- Green Index Success Pulse ring -->
+  <circle class="opt-indicator" cx="200" cy="200" r="28" fill="none" stroke="#50fa7b" stroke-width="2.5" opacity="0" />
+
+  <!-- Data Packets (Base position at 0,0) -->
+  <circle class="packet-1" cx="0" cy="0" r="5.5" />
+  <circle class="packet-2" cx="0" cy="0" r="5.5" opacity="0" />
+  <circle class="packet-3" cx="0" cy="0" r="5.5" opacity="0" />
+
+</svg>

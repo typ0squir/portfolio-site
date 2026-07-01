@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Glowing filters -->
+    <filter id="green-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="red-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="purple-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    /* Styling */
+    .transmission-line { stroke: rgba(255, 255, 255, 0.08); stroke-width: 2; fill: none; }
+    .gate-outer { stroke: rgba(255, 255, 255, 0.15); stroke-width: 2.5; fill: none; transform-origin: 200px 200px; animation: gateAction 5s infinite ease-in-out; }
+    .gate-inner { stroke: rgba(255, 255, 255, 0.1); stroke-width: 1.5; fill: none; stroke-dasharray: 4 4; transform-origin: 200px 200px; animation: gateInnerAction 5s infinite linear; }
+    
+    /* Animations */
+    .packet-unauth { fill: #ff5555; filter: url(#red-glow); animation: packetUnauthFlow 5s infinite ease-in-out; }
+    .packet-auth { fill: #bd93f9; filter: url(#purple-glow); animation: packetAuthFlow 5s infinite ease-in-out; }
+    
+    /* Gate LED/Ring response */
+    @keyframes gateAction {
+      0%, 15%, 40%, 60%, 92%, 100% { stroke: rgba(255, 255, 255, 0.15); transform: scale(1); filter: none; }
+      /* Flash Red on unauthorized hit */
+      16%, 32% { stroke: #ff5555; transform: scale(0.96); filter: url(#red-glow); }
+      /* Open/Glow Purple on authorized pass */
+      62%, 84% { stroke: #bd93f9; transform: scale(1.12); filter: url(#purple-glow); }
+    }
+
+    @keyframes gateInnerAction {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Red (Unauthorized) Packet: Bounces back at gate X=170 */
+    @keyframes packetUnauthFlow {
+      0% { transform: translate(60px, 200px); opacity: 0; }
+      4% { opacity: 1; }
+      16% { transform: translate(170px, 200px); opacity: 1; }  /* Hits gate edge */
+      20% { transform: translate(150px, 200px); opacity: 0.8; } /* Bounces back */
+      30%, 100% { transform: translate(110px, 200px); opacity: 0; }
+    }
+
+    /* Purple (Authorized) Packet: Passes through gate */
+    @keyframes packetAuthFlow {
+      0%, 46% { transform: translate(60px, 200px); opacity: 0; }
+      50% { opacity: 1; }
+      62% { transform: translate(200px, 200px); opacity: 1; }  /* Pass center */
+      78% { transform: translate(340px, 200px); opacity: 1; }  /* Exit right */
+      84%, 100% { transform: translate(340px, 200px); opacity: 0; }
+    }
+  </style>
+
+  <!-- Straight transmission path line -->
+  <line class="transmission-line" x1="50" y1="200" x2="350" y2="200" />
+
+  <!-- Access/Role Gate rings -->
+  <circle class="gate-outer" cx="200" cy="200" r="28" />
+  <circle class="gate-inner" cx="200" cy="200" r="18" />
+
+  <!-- Shield arcs on gate for decorative security feel -->
+  <path d="M 200,165 A 35,35 0 0,1 235,200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+  <path d="M 200,235 A 35,35 0 0,1 165,200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1.5" />
+
+  <!-- Packet 1: Unauthorized (Red) -->
+  <circle class="packet-unauth" cx="0" cy="0" r="5" />
+
+  <!-- Packet 2: Authorized (Purple) -->
+  <circle class="packet-auth" cx="0" cy="0" r="5" />
+
+</svg>

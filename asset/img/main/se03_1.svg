@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Glowing filters -->
+    <filter id="green-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="red-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="cyan-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="purple-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <style>
+    /* Styling */
+    .circuit-line { stroke: rgba(255, 255, 255, 0.08); stroke-width: 2.5; fill: none; }
+    .shutter-gate { stroke: #bd93f9; stroke-width: 4; stroke-linecap: round; filter: url(#purple-glow); }
+    
+    /* Animations */
+    .shutter-barrier { transform-origin: 200px 150px; animation: shutterSlam 6s infinite ease-in-out; }
+    .status-led { animation: ledStateChange 6s infinite steps(1); }
+    .alert-indicator { transform-origin: 320px 200px; animation: alertStateChange 6s infinite ease-in-out; }
+    .packet-normal { fill: #50fa7b; filter: url(#green-glow); animation: packetFlowNormal 6s infinite linear; }
+    .packet-blocked { fill: #8be9fd; filter: url(#cyan-glow); animation: packetFlowBlocked 6s infinite linear; }
+
+    /* Shutter slams down to block path */
+    @keyframes shutterSlam {
+      0%, 40%, 95%, 100% { transform: translateY(0px); }    /* Up (Open) */
+      45%, 90% { transform: translateY(45px); }            /* Down (Closed/Blocked) */
+    }
+
+    /* LED Status Light (Green -> Red) */
+    @keyframes ledStateChange {
+      0%, 40%, 95%, 100% { fill: #50fa7b; filter: url(#green-glow); }
+      45%, 90% { fill: #ff5555; filter: url(#red-glow); }
+    }
+
+    /* Error alert flash at target */
+    @keyframes alertStateChange {
+      0%, 35%, 93%, 100% { opacity: 0; transform: scale(0.6); }
+      38%, 43% { opacity: 1; transform: scale(1.1); }
+      46%, 90% { opacity: 0.2; transform: scale(0.9); }
+    }
+
+    /* Data packet flows normal (left to right) */
+    @keyframes packetFlowNormal {
+      0% { transform: translate(80px, 200px); opacity: 1; }
+      35% { transform: translate(320px, 200px); opacity: 1; }
+      36%, 100% { transform: translate(320px, 200px); opacity: 0; }
+    }
+
+    /* Data packet gets blocked by shutter */
+    @keyframes packetFlowBlocked {
+      0%, 40% { transform: translate(80px, 200px); opacity: 0; }
+      43% { transform: translate(80px, 200px); opacity: 1; }
+      58% { transform: translate(192px, 200px); opacity: 1; }
+      60%, 100% { transform: translate(192px, 200px); opacity: 0; }
+    }
+  </style>
+
+  <!-- Main Transmission Line (Gap at X=192 to 208) -->
+  <path class="circuit-line" d="M 60,200 L 192,200 M 208,200 L 340,200" />
+
+  <!-- Nodes -->
+  <!-- Client Input (Left) -->
+  <circle cx="80" cy="200" r="8" fill="#1e1e24" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5" />
+  <circle cx="80" cy="200" r="3.5" fill="#8be9fd" />
+
+  <!-- API Destination (Right) -->
+  <circle cx="320" cy="200" r="8" fill="#1e1e24" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5" />
+  <circle cx="320" cy="200" r="3.5" fill="#50fa7b" />
+
+  <!-- Shutter Barrier Group (Slams down to bridge/block the gap) -->
+  <g class="shutter-barrier">
+    <!-- Vertical Shutter guide lines -->
+    <line x1="200" y1="120" x2="200" y2="150" stroke="rgba(255, 255, 255, 0.08)" stroke-width="2.5" stroke-dasharray="2 2" />
+    <!-- Horizontal Shutter Gate -->
+    <line class="shutter-gate" x1="190" y1="150" x2="210" y2="150" />
+    <rect x="194" y="132" width="12" height="15" fill="#bd93f9" rx="2" opacity="0.8" />
+  </g>
+
+  <!-- Status LED Light Indicator -->
+  <circle class="status-led" cx="200" cy="100" r="5" />
+
+  <!-- Red Flash/Error Alert Ring -->
+  <g class="alert-indicator" opacity="0">
+    <circle cx="320" cy="200" r="18" fill="none" stroke="#ff5555" stroke-width="2" stroke-dasharray="4 3" />
+    <path d="M 320,190 L 320,203 M 320,208 L 320,210" stroke="#ff5555" stroke-width="2.5" stroke-linecap="round" />
+  </g>
+
+  <!-- Packets -->
+  <!-- 1. Normal Mode Packet (Green) -->
+  <circle class="packet-normal" cx="0" cy="0" r="4.5" />
+  
+  <!-- 2. Blocked Mode Packet (Cyan) -->
+  <circle class="packet-blocked" cx="0" cy="0" r="4.5" opacity="0" />
+
+</svg>
